@@ -1,114 +1,214 @@
 import React from "react";
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  Dimensions,
+  StatusBar,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 export default function HomeScreen() {
   const navigation = useNavigation();
 
-  const handleRoleSelect = (role) => {
-    if (role === "student") {
-      navigation.navigate("StudentLogin");
-    } else {
-      navigation.navigate("AdminLogin");
-    }
-  };
-
   return (
-    <ImageBackground
-      source={{
-        uri: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&q=80&w=1920",
-      }}
-      style={styles.background}
-      imageStyle={{ opacity: 0.85 }}
-    >
-      {/* Dark overlay */}
-      <View style={styles.overlay} />
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <ImageBackground
+        source={{
+          uri: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070",
+        }}
+        style={styles.background}
+        resizeMode="cover"
+      >
+        {/* Gradient-style Overlay */}
+        <View style={styles.gradientOverlay} />
 
-      {/* Content */}
-      <View style={styles.content}>
-        <Text style={styles.title}>EduLink</Text>
+        <SafeAreaView style={styles.contentContainer}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <View style={styles.logoBadge}>
+              <Text style={styles.logoIcon}>E</Text>
+            </View>
+            <Text style={styles.brandName}>
+              EDU<Text style={styles.brandLight}>LINK</Text>
+            </Text>
+            <Text style={styles.tagline}>Future-Ready Education</Text>
+          </View>
 
-        <Text style={styles.subtitle}>
-          A secure portal for <Text style={styles.highlight}>Students</Text> and{" "}
-          <Text style={styles.highlight}>Administrators</Text> to manage
-          academic information and workflows.
-        </Text>
+          {/* Bottom Action Sheet */}
+          <View style={styles.actionCard}>
+            <Text style={styles.welcomeText}>Get Started</Text>
+            <Text style={styles.instructionText}>
+              Select your identity to access the personalized dashboard.
+            </Text>
 
-        {/* Buttons */}
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleRoleSelect("student")}
-          >
-            <Text style={styles.buttonText}>Student Portal</Text>
-          </TouchableOpacity>
+            {/* Student Button - Primary */}
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.primaryButton}
+              onPress={() => navigation.navigate("StudentLogin")}
+            >
+              <Text style={styles.primaryButtonText}>I am a Student</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handleRoleSelect("admin")}
-          >
-            <Text style={styles.buttonText}>Admin Portal</Text>
-          </TouchableOpacity>
-        </View>
+            {/* Admin Button - Outlined/Sleek */}
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.secondaryButton}
+              onPress={() => navigation.navigate("AdminLogin")}
+            >
+              <Text style={styles.secondaryButtonText}>Staff Administration</Text>
+            </TouchableOpacity>
 
-        <Text style={styles.footer}>Secure • Smart • Student-Centric</Text>
-      </View>
-    </ImageBackground>
+            <View style={styles.footer}>
+              <View style={styles.dot} />
+              <Text style={styles.footerText}>SECURED BY END-TO-END ENCRYPTION</Text>
+              <View style={styles.dot} />
+            </View>
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+  },
   background: {
     flex: 1,
-    justifyContent: "center",
+    width: width,
+    height: height,
   },
-  overlay: {
+  gradientOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.55)",
+    backgroundColor: "rgba(15, 23, 42, 0.7)", // Deep navy tint
   },
-  content: {
-    paddingHorizontal: 30,
+  contentContainer: {
+    flex: 1,
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: 40,
   },
-  title: {
-    fontSize: 42,
+  header: {
+    alignItems: "center",
+    marginTop: 60,
+  },
+  logoBadge: {
+    width: 60,
+    height: 60,
+    borderRadius: 18,
+    backgroundColor: "#3b82f6",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+    // Soft Glow
+    shadowColor: "#3b82f6",
+    shadowOpacity: 0.5,
+    shadowRadius: 15,
+    elevation: 10,
+  },
+  logoIcon: {
     color: "#fff",
+    fontSize: 32,
+    fontWeight: "900",
+  },
+  brandName: {
+    fontSize: 34,
     fontWeight: "800",
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#e6e6e6",
-    marginBottom: 40,
-    lineHeight: 24,
-  },
-  highlight: {
-    fontWeight: "bold",
-    color: "#bcdcff",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    gap: 15,
-  },
-  button: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 30,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.3)",
-    backgroundColor: "rgba(255,255,255,0.15)",
-    marginHorizontal: 5,
-  },
-  buttonText: {
     color: "#fff",
-    fontWeight: "600",
+    letterSpacing: 2,
+  },
+  brandLight: {
+    fontWeight: "300",
+    color: "#94a3b8",
+  },
+  tagline: {
+    color: "#94a3b8",
     fontSize: 14,
+    letterSpacing: 4,
+    textTransform: "uppercase",
+    marginTop: 8,
+  },
+  actionCard: {
+    width: width * 0.9,
+    backgroundColor: "rgba(255, 255, 255, 0.08)", // Hyper-subtle glass
+    borderRadius: 30,
+    padding: 24,
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.15)",
+    backdropFilter: "blur(10px)", // Works on web/ios if supported
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  welcomeText: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#fff",
+    marginBottom: 8,
+  },
+  instructionText: {
+    fontSize: 14,
+    color: "#94a3b8",
+    textAlign: "center",
+    marginBottom: 30,
+    lineHeight: 20,
+    paddingHorizontal: 10,
+  },
+  primaryButton: {
+    width: "100%",
+    backgroundColor: "#3b82f6",
+    height: 60,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 16,
+  },
+  primaryButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+  },
+  secondaryButton: {
+    width: "100%",
+    backgroundColor: "transparent",
+    height: 60,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+  },
+  secondaryButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
   },
   footer: {
-    marginTop: 50,
-    color: "#dcdcdc",
-    letterSpacing: 2,
-    fontSize: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 25,
+  },
+  footerText: {
+    color: "#64748b",
+    fontSize: 9,
+    fontWeight: "700",
+    letterSpacing: 1,
+  },
+  dot: {
+    width: 4,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#3b82f6",
+    marginHorizontal: 8,
   },
 });
